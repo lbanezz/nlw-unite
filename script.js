@@ -98,3 +98,11 @@ let participantes = [
   }
   
   atualizarLista(participantes)
+
+  const adicionarParticipante = (event) => {
+    event.preventDefault()
+
+    const dadosDoFormulario = new FormData(event.target)
+
+    alert(dadosDoFormulario.get("nome"))
+  }
