@@ -104,5 +104,12 @@ let participantes = [
 
     const dadosDoFormulario = new FormData(event.target)
 
-    alert(dadosDoFormulario.get("nome"))
-  }
+   const participante = {
+    nome: dadosDoFormulario.get("nome"),
+    email: dadosDoFormulario.get("email"),
+    dataInscricao: new Date(),
+    dataCheckIn: null
+   }
+
+    participantes
+ }
