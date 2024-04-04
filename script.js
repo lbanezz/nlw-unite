@@ -9,7 +9,7 @@ let participantes = [
       nome: "David Fellipe",
       email: "mayk@gmail.com",
       dataInscricao: new Date(2024, 2, 23, 19, 23),
-      dataCheckIn: new Date(2024, 2, 25, 20, 20)
+      dataCheckIn: null
     },
     {
       nome: "Ana Souza",
@@ -27,7 +27,7 @@ let participantes = [
       nome: "Maria Oliveira",
       email: "maria@gmail.com",
       dataInscricao: new Date(2023, 10, 5, 19, 23),
-      dataCheckIn: new Date(2023, 10, 6, 20, 20)
+      dataCheckIn: null
     },
     {
       nome: "Pedro Santos",
@@ -51,13 +51,13 @@ let participantes = [
       nome: "Paula Costa",
       email: "paula@gmail.com",
       dataInscricao: new Date(2023, 6, 9, 19, 23),
-      dataCheckIn: new Date(2023, 6, 10, 20, 20)
+      dataCheckIn: null
     },
     {
       nome: "Gabriel Almeida",
       email: "gabriel@gmail.com",
       dataInscricao: new Date(2023, 5, 10, 19, 23),
-      dataCheckIn: new Date(2023, 5, 11, 20, 20)
+      dataCheckIn: null
     }
   ];
   
@@ -65,8 +65,21 @@ let participantes = [
     const dataInscricao = dayjs(Date.now())
     .to(participante.dataInscricao)
   
-    const dataCheckIn = dayjs(Date.now())
+    let dataCheckIn = dayjs(Date.now())
     .to(participante.dataCheckIn)
+
+
+    // condicional
+    if (participante.dataCheckIn == null) {
+      dataCheckIn = `
+        <button 
+          data-email="${participante.email}"
+          onclick="fazerCheckIn(event)"
+        > 
+          Confirmar check-in
+        </button>
+      `
+    }
     
     return `
     <tr>
@@ -97,9 +110,7 @@ let participantes = [
     .innerHTML = output
   }
   
-  atualizarLista(participantes)
-
-  const adicionarParticipante = (event) => {
+    const adicionarParticipante = (event) => {
     event.preventDefault()
 
     const dadosDoFormulario = new FormData(event.target)
@@ -111,5 +122,31 @@ let participantes = [
     dataCheckIn: null
    }
 
-    participantes
+    participantes = [participante, ...participantes]
+    atualizarLista(participantes)
+
+   // limpar formulario 
+   
+
  }
+
+ const fazerCheckIn = (event) => {
+    // confirmar se realmente quer o check-in
+    const mensagemConfirmacao = "Tem certeza que deseja fazer o  check- in?"
+
+    if (confirm(mensagemConfirmacao) == false) {
+      return
+    } 
+
+    alert(resultado) // true ou false - boolean
+
+    // econtrar o participante dentro da lista
+    const participante = participantes.find((p) => {
+      return p.email == event.target.dataset.email
+    })
+    // atualizar o checkIn do participante
+    participante.dataCheckIn = new Date()
+    // atualizar a lista de participantes 
+    atualizarLista(participantes)
+ }
+
